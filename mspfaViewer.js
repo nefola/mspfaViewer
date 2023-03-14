@@ -1,5 +1,7 @@
 // MSPFA JS
+//nefola anotations in n:next
 window.MSPFA = {
+  //n:bbcode parsing regex
   BBC: [
     [/  /g, "&nbsp;&nbsp;"],
     [/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;"],
@@ -26,6 +28,7 @@ window.MSPFA = {
     [/\[flash=(\d*?)x(\d*?)\](.*?)\[\/flash\]/gi, "<object type=\"application/x-shockwave-flash\" data=\"$3\" width=\"$1\" height=\"$2\"></object>"],
     [/\[user\](.+?)\[\/user\]/gi, "<a class=\"usertag\" href=\"/user/?u=$1\" data-userid=\"$1\">@...</a>"]
   ],
+  //n:bbcode collapsables function
   toggleSpoiler: function() {
     if(this.parentNode.parentNode.classList.contains("closed")) {
       this.value = this.getAttribute("data-close");
@@ -37,6 +40,7 @@ window.MSPFA = {
       this.parentNode.parentNode.classList.add("closed");
     }
   },
+  //n:the bbcode parser, i am not figuring out how it works for you
   parseBBCode: function(code, noHTML) {
     if(noHTML) {
       code = [code.replace(/</g, "&lt;").replace(/>/g, "&gt;")];
@@ -150,6 +154,7 @@ window.MSPFA = {
   slide: []
 }
 
+//n:adventure data is stored in a json file, primes a varable to be loaded with data from it
 let adventureData
 
 // Get JSON
@@ -164,18 +169,21 @@ const clickLink = (event, link) => {
   loadPage()
 }
 
+//n:gets page number so the correct entry from adventure data is loaded
 const getUrlPage = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const p = urlParams.get("p")
   return p ? p : "1"
 }
 
+//n:converts code in javascript and the json file into html elements for the page to load
 const loadIntoElement = (id, element) => {
   console.log(id, element)
   document.getElementById(id).innerHTML = ""
   document.getElementById(id).append(element)
 }
 
+//n:puts the data from adventure data json into the varable, and sets up favicon and the goback pagelink
 const loadAdventure  = data => {
   adventureData = data
   document.title = adventureData.n
@@ -184,6 +192,8 @@ const loadAdventure  = data => {
   loadPage()
 }
 
+
+//n: i think this makes the go back button work? 
 const genPageLinks = (pages, linkIndexs) => {
   const span = document.createElement("span")
   linkIndexs.forEach(pageIndex => {
@@ -204,6 +214,7 @@ const genPageLinks = (pages, linkIndexs) => {
   return span
 }
 
+//n:well this is one makes sence
 const loadPage = () => {
   const p = getUrlPage()
 
